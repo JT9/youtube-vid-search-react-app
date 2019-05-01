@@ -6,6 +6,11 @@ import VideoDetail from './VideoDetail';
 
 class App extends React.Component {
     state = { videos: [], selectedVideo: null };
+
+    componentDidMount() {
+        this.onTermSubmit('buildings');
+    }
+    
     onTermSubmit = async term => {
         const response = await youtube.get('/search', {
             params: {
@@ -13,7 +18,11 @@ class App extends React.Component {
             }
         });
         
-        this.setState({ videos: response.data.items });
+        this.setState({ 
+            videos: response.data.items,
+            //Used to automatically update the 1st displayed video when searched
+            selectedVideo: response.data.items[0] 
+        });
     };
 
     //callback to be used to communicate between parent and child
